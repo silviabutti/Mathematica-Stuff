@@ -1,0 +1,24 @@
+(*Generate random arithmetic tests with solutions*)
+
+ClearAll[ArithmeticTest, a, b, T];
+ArithmeticTest := Module[{a, b, Bill, T},
+   Bill := (
+     a = RandomInteger[{1, 12}];
+     b = RandomInteger[{1, 12}];
+     Return[{a, b, a*b}]
+     );
+   T = {};
+   CellPrint[Cell["Arithmetic Test", "Text"]];
+   Do[AppendTo[T, Bill], 10];
+   
+   Table[CellPrint[
+     Cell[ToString[T[[j, 1]]] <> " X " <> ToString[T[[j, 2]]] <> " =",
+       "Text", FontColor -> Red]], {j, 10}];
+   CellPrint[Cell["ANSWERS", "Text", FontColor -> Green]];
+   Table[CellPrint[
+     Cell[ToString[T[[j, 1]]] <> " X " <> ToString[T[[j, 2]]] <> 
+       " = " <> ToString[T[[j, 3]]], "Text", FontColor -> Red]], {j, 
+     10}];
+   ];
+   
+Do[ArithmeticTest, {3}]
