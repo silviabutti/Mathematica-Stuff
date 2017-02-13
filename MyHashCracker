@@ -1,0 +1,21 @@
+(*This function finds strings whose SHA256 hash starts with 1234.*)
+
+ClearAll[T, myfun]
+T = StringJoin[Table[Alphabet[][[RandomInteger[{1, 26}]]], {20}]];
+j = 1;
+myfun := While[
+   z = StringJoin[Table[Alphabet[][[RandomInteger[{1, 26}]]], {20}]]; 
+   x = Hash[z, "SHA256"];
+   Table[IntegerDigits[x][[k]], {k, 4}] != {1, 2, 3, 4}];
+myfun
+{x, z}
+
+(*Checking:*)
+
+Hash["awgxtpbyzcsfrvsemvrj", "SHA256"]
+1234483018324527312444968064592774759745286465290040206719266426550960\
+6244392
+
+Hash["ogeqahgrbbqbofenhnnq", "SHA256"]
+1234357614981743133497864842608084223237263480515258041092941596504303\
+3400477
