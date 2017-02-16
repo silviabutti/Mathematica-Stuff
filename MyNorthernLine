@@ -1,0 +1,24 @@
+(*Creates a pretty picture that is topologically equivalent to the London Norhtern Line*)
+
+ClearAll[bitofnorthernline, Vertexset, Edgeset];
+bitofnorthernline =
+  {{"Hampstead", "Belsize Park", "Chalk Farm", "Camden Town", 
+    "Mornington Crescent", "Euston", "Warren Street", 
+    "Goodge Street"}, {"Highgate", "Archway", "Tufnell Park", 
+    "Kentish Town", "Camden Town", "Mornington Crescent", "Euston", 
+    "Warren Street", "Goodge Street", "Tottenham Court Road", 
+    "Leicester Square", "Charing Cross", "Embankment", "Waterloo", 
+    "Kennington"}, {"Camden Town", "Euston", 
+    "King's Cross St Pancras", "Angel", "Old Street", "Moorgate", 
+    "Bank", "London Bridge", "Elephant and Castle", "Kennington", 
+    "Oval", "Stockwell", "Clapham North"}};
+    
+Edgeset = DeleteDuplicates[Flatten[Table[
+     bitofnorthernline[[i]][[j]] <-> 
+      bitofnorthernline[[i]][[j + 1]], {i, 1, 3}, {j, 1, Length[bitofnorthernline[[i]]] - 1}]]];
+      
+Vertexset = DeleteDuplicates[Flatten[bitofnorthernline]];
+
+Graph[Edgeset, VertexLabels -> "Name", 
+ GraphLayout -> "SpringEmbedding", 
+ VertexLabelStyle -> Directive[Red, Italic, 10], ImageSize -> 1000]
