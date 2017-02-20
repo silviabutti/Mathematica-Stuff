@@ -1,0 +1,34 @@
+(*Takes as input any number between 1 and 10000 and returns its name \
+in English*).
+  
+  ClearAll[ChangeNum, prep, Listnum, Listdec, thsn, hndr, decn, 
+   unts];
+Listnum = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", 
+   "Eight", "Nine", "Ten"};
+Listdec = {"Ten", "Twenty", "Thirty", "Fourty", "Fifty", "Sixty", 
+   "Seventy", "Eighty", "Ninety"};
+Listones = {"Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", 
+   "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+prep[x_] := Map[ToExpression, StringPartition[ToString[x], 1]];
+
+thsn[{a_, b_, c_}] := thsn[{0, a, b, c}];
+thsn[{a_, b_}] := thsn[{0, 0, a, b}];
+thsn[{a_}] := thsn[{0, 0, 0, a}] ;
+thsn[{x_, a_, b_, c_}] := 
+  StringJoin[Listnum[[x]], " Thousand ", hndr[{a, b, c}]];
+thsn[{0, a_, b_, c_}] := hndr[{a, b, c}];
+thsn[{x_, 0, 0, 0}] := StringJoin[Listnum[[x]], " Thousand"];
+thsn[{1, 0, 0, 0, 0}] :=  "Ten Thousand";
+hndr[{x_, a_, b_}] := 
+  StringJoin[Listnum[[x]], " Hundred and ", decn[{a, b}]];
+hndr[{0, a_, b_}] := decn[{a, b}]; 
+hndr[{x_, 0, 0}] := StringJoin[Listnum[[x]], " Hundred"];
+decn[{x_, a_}] := StringJoin[Listdec[[x]], " ", unts[{a}]];
+decn[{0, a_}] := unts[{a}];
+decn[{x_, 0}] := Listdec[[x]];
+decn[{1, a_}] := Listones[[a]];
+unts[{x_}] := Listnum[[x]];
+unts[{0}] := " ";
+ChangeNum[x_] := thsn[prep[x]];
+
+Table[ChangeNum[i], {i, 1, 10000}]
