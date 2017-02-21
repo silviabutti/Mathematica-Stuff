@@ -1,0 +1,80 @@
+(*outputs some very pretty pictures of sliced disks and polygons*)
+
+ClearAll[PixxPicture];
+
+PixxPicture[n_] := 
+  Module[{numberofslices, angleofslice, distancebetweencentres, x, y, 
+    w, z, aaan, bbbn, cccn, dddn, fffn, gggn, hhhn, iiin, points, 
+    MyCircle, mid},
+   
+   numberofslices = 2 n ;
+   
+   angleofslice = 2 Pi/numberofslices;
+   
+   distancebetweencentres = 2 Sin[angleofslice/2];
+   
+   Subscript[\[Theta], 1] = 3 Pi/2 - angleofslice/2;
+   Subscript[\[Theta], 2] = 3 Pi/2 + angleofslice/2;
+   Subscript[\[Theta], 3] = Pi/2 - angleofslice/2;
+   Subscript[\[Theta], 4] = Pi/2 + angleofslice/2;
+   
+   x = 0;
+   y = 0;
+   z = 3;
+   w = -3;
+   
+   aaan = 
+    Table[ Disk[{z + x + i distancebetweencentres, y}, 
+      1, {Subscript[\[Theta], 1], Subscript[\[Theta], 2]}], {i, 0, 
+      numberofslices/2 - 1}];
+   
+   bbbn = 
+    Table[ Disk[{z + x + (i + 1) distancebetweencentres - 
+        Sin[angleofslice/2], y - Cos[angleofslice/2]}, 
+      1, {Subscript[\[Theta], 3], Subscript[\[Theta], 4]}], {i, 0, 
+      numberofslices/2 - 1}];
+   
+   cccn = 
+    Table[Disk[{0, 0}, 1, {2 i, 2 i + 1} angleofslice ], {i, 0, 
+      numberofslices - 1}];
+   
+   dddn = 
+    Table[Disk[{0, 0}, 1, {2 i + 1, 2 i + 2} angleofslice ], {i, 0, 
+      numberofslices - 1}];
+   
+   points = CirclePoints[2*n];
+   mid = AppendTo[points, points[[1]]];
+   MyCircle = AppendTo[mid, mid[[2]]];
+   
+   fffn = 
+    Table[ Triangle[{{z + i*distancebetweencentres, 
+        w}, {z + (i + 1)*distancebetweencentres, 
+        w}, {(2*z + (2*i + 1)*distancebetweencentres)/2, 
+        w - Cos[angleofslice/2]}}], {i, 0, numberofslices/2 - 1}];
+   
+   gggn = 
+    Table[ Triangle[{{z + (i) distancebetweencentres - 
+         Sin[angleofslice/2], 
+        w - Cos[angleofslice/
+           2]}, {z + (i + 1) distancebetweencentres - 
+         Sin[angleofslice/2], 
+        w - Cos[angleofslice/
+           2]}, {(2*z + (2*(i - 1) + 3) distancebetweencentres - 
+           2*Sin[angleofslice/2])/2, w}}], {i, 0, 
+      numberofslices/2 - 1}];
+   
+   hhhn = 
+    Table[Triangle[{{0, w}, {0, w} + MyCircle[[i]], {0, w} + 
+        MyCircle[[i + 1]]}], {i, 1, 2*n, 2}];
+   
+   iiin = 
+    Table[Triangle[{{0, w}, {0, w} + MyCircle[[i + 1]], {0, w} + 
+        MyCircle[[i + 2]]}], {i, 1, 2*n, 2}];
+   
+   Show[Graphics[{Red, aaan, Green, bbbn, Red, cccn, Green, dddn, 
+      Blue, hhhn, Yellow, iiin, Blue, fffn, Yellow, gggn}], 
+    AspectRatio -> Automatic, ImageSize -> Large]
+   
+    ];
+
+Do[Print[PixxPicture[j]], {j, 3, 13, 2}]
