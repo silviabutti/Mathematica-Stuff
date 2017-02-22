@@ -1,0 +1,26 @@
+(*basenpoly expresses a positive integer in base n, as a polynomial in n.\\
+newbasenpoly does the same but using 'hereditary base-n' notation, that is, \\ 
+exponents are  also converted to polynomial base-n and so on until there \\
+are no integers greater than n in the expression.\\
+newbasenpoly works fine, however the recursive depth exceeds the recursion \\
+limits set by Mathematica. Any help with this?*)
+
+ClearAll[basenpoly, newbasenpoly];
+basenpoly[x_, n_] := Module[{l},
+    l = Length[IntegerDigits[x, n]];
+    Plus @@ 
+     Table[IntegerDigits[x, n][[l - i]]*Superscript[n, i], {i, 0, 
+       l - 1}]
+    ] /. {Superscript[a_, 0] -> 1};
+
+newbasenpoly[x_, n_] :=  Module[{l},
+    l = Length[IntegerDigits[x, n]];
+    Plus @@ 
+     Table[IntegerDigits[x, n][[l - i]]*
+       Superscript[n, newbasenpoly[i, n]], {i, 0, l - 1}]
+    ] /. {Superscript[a_, 0] -> 1};
+
+(*check:*)
+
+basenpoly[2880095, 2] 
+newbasenpoly[2880095, 2]
