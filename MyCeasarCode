@@ -1,0 +1,30 @@
+(*Some easy encryption and decryption*)
+
+ClearAll[MySecretCode1, MySecretCode2, MySecretDecode, CeasarCode];
+
+MySecretCode1[word_String, m_Integer] := 
+    FromCharacterCode[ToCharacterCode[word] + m];
+  
+MySecretDecode[word_String, m_Integer] := 
+  FromCharacterCode[ToCharacterCode[word] - m];
+
+(*following is an actual Ceasar chiper*)
+
+MySecretCode2[word_String, m_Integer] := Module[{l, DoubleAlph},
+   l = (# - 96 + m) & /@ ToCharacterCode[Characters[word]];
+   DoubleAlph = Flatten[Append[Alphabet[], Alphabet[]]];
+   StringJoin[
+    Flatten[Table[DoubleAlph[[l[[i]]]], {i, 1, Length[l]}]]]];
+
+(*deals with spaces too*)
+
+CeasarCode[word_String, m_Integer] := 
+  StringJoin[
+   Map[StringJoin[#, " "] &, 
+    MySecretCode2[#, m] & /@ StringSplit[ToLowerCase[word]]]];
+    
+    CeasarCode["Here is my secret keep your mouth shut", 13]
+    "urer vf zl frperg xrrc lbhe zbhgu fuhg "
+    
+    CeasarCode["urer vf zl frperg xrrc lbhe zbhgu fuhg", 13]
+    "here is my secret keep your mouth shut "
