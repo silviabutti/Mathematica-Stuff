@@ -1,0 +1,95 @@
+(*proves Pythagora's Theorem graphically*) 
+
+ClearAll[twosquares2and2lines, twosquares2, twosquares2and2linesmv2, 
+  twosquares2and2linesmv3];
+
+(*produce two squares, next to each other, the smallest one on the left*)
+
+twosquares2[a_, b_] := Module[{aa, bb},
+   
+   aa = {Red, Polygon[{{0, 0}, {0, a}, {a, a}, {a, 0}}]};
+   
+   If[a >= b, 
+    bb = {Red, Polygon[{{a, 0}, {a, b}, {a + b, b}, {a + b, 0}}]}, 
+    bb = {Red, Polygon[{{0, 0}, {0, b}, {-b, b}, {-b, 0}}]}];
+   
+   Graphics[{aa, bb}]];
+   
+(*include two congruent lines such that the length of the sides opposite the hypotenuse are equal to the lengths of the two squares*)
+
+twosquares2and2lines[a_, b_] := Module[{aa, bb, xx, line1, line2},
+   
+   aa = {Red, Polygon[{{0, 0}, {0, a}, {a, a}, {a, 0}}]};
+   
+   
+   If[a >= b, 
+    bb = {Red, Polygon[{{a, 0}, {a, b}, {a + b, b}, {a + b, 0}}]}; 
+    line1 = {Black, Line[{{0, a}, {b, 0}}]};
+    line2 = {Black, Line[{{b, 0}, {a + b, b}}]},
+    bb = {Red, Polygon[{{0, 0}, {0, b}, {-b, b}, {-b, 0}}]}; 
+    line1 = {Black, Line[{{-b, b}, {a - b, 0}}]};
+    line2 = {Black, Line[{{a - b, 0}, {a, a}}]}];
+   
+   Graphics[{aa, bb, line1, line2}]];
+   
+(*move one triangle*)
+
+twosquares2and2linesmv2[a_, b_] := 
+  Module[{aa, bb, xx, line1, line2, trb1, trr1, line3},
+   
+   aa = {Red, Polygon[{{0, 0}, {0, a}, {a, a}, {a, 0}}]};
+   
+   
+   If[a >= b, 
+    bb = {Red, Polygon[{{a, 0}, {a, b}, {a + b, b}, {a + b, 0}}]}; 
+    line1 = {Black, Line[{{0, a}, {b, 0}}]};
+    line2 = {Black, Line[{{b, 0}, {a + b, b}}]};
+    trb1 = {White, Triangle[{{0, 0}, {b, 0}, {0, a}}]};
+    trr1 = {Red, Triangle[{{0, a}, {a, a}, {a, a + b}}]};
+    line3 = {Black, Line[{{0, a}, {a, a}}]},
+    bb = {Red, Polygon[{{0, 0}, {0, b}, {-b, b}, {-b, 0}}]}; 
+    line1 = {Black, Line[{{-b, b}, {a - b, 0}}]};
+    line2 = {Black, Line[{{a - b, 0}, {a, a}}]};
+    trb1 = {White, Triangle[{{-b, 0}, {-b + a, 0}, {-b, b}}]};
+    trr1 = {Red, Triangle[{{-b, b}, {0, b}, {0, a + b}}]};
+    line3 = {Black, Line[{{-b, b}, {0, b}}]}];
+   Graphics[{aa, bb, line1, line2, trb1, trr1, line3}]];
+   
+(*move both triangles*)
+
+twosquares2and2linesmv3[a_, b_] := 
+  Module[{aa, bb, xx, line1, line2, trb1, trr1, line3, trb2, trr2, 
+    line4, line5},
+   
+   aa = {Red, Polygon[{{0, 0}, {0, a}, {a, a}, {a, 0}}]};
+   
+   
+   If[a >= b, 
+    bb = {Red, Polygon[{{a, 0}, {a, b}, {a + b, b}, {a + b, 0}}]}; 
+    line1 = {Black, Line[{{0, a}, {b, 0}}]};
+    line2 = {Black, Line[{{b, 0}, {a + b, b}}]};
+    trb1 = {White, Triangle[{{0, 0}, {b, 0}, {0, a}}]};
+    trr1 = {Red, Triangle[{{0, a}, {a, a}, {a, a + b}}]};
+    line3 = {Black, Line[{{0, a}, {a, a}}]};
+    trb2 = {White, Triangle[{{b, 0}, {a + b, 0}, {a + b, b}}]};
+    trr2 = {Red, Triangle[{{a + b, b}, {a, b}, {a, a + b}}]};
+    line4 = {Black, Line[{{a, b}, {a + b, b}}]};
+    line5 = {Black, Line[{{a, b}, {a, a + b}}]},
+    bb = {Red, Polygon[{{0, 0}, {0, b}, {-b, b}, {-b, 0}}]}; 
+    line1 = {Black, Line[{{-b, b}, {a - b, 0}}]};
+    line2 = {Black, Line[{{a - b, 0}, {a, a}}]};
+    trb1 = {White, Triangle[{{-b, 0}, {-b + a, 0}, {-b, b}}]};
+    trr1 = {Red, Triangle[{{-b, b}, {0, b}, {0, a + b}}]};
+    line3 = {Black, Line[{{-b, b}, {0, b}}]};
+    trb2 = {White, Triangle[{{-b + a, 0}, {a, 0}, {a, a}}]};
+    trr2 = {Red, Triangle[{{a, a}, {0, a}, {0, a + b}}]};
+    line4 = {Black, Line[{{0, a}, {a, a}}]};
+    line5 = {Black, Line[{{0, a}, {0, a + b}}]},
+    bb = {Red, Polygon[{{0, 0}, {0, b}, {-b, b}, {-b, 0}}]}];
+   Graphics[{aa, bb, line1, line2, trb1, trr1, line3, trb2, trr2, 
+     line4, line5}]];
+     
+ 
+twosquares2and2lines[1, 3]
+twosquares2and2linesmv2[1, 3]
+twosquares2and2linesmv3[1, 3]
